@@ -102,7 +102,7 @@ fun Orientacion_Retrato(modifier: Modifier = Modifier, navController : NavContro
             colors = ButtonDefaults.buttonColors(),
         ) {
             Text(
-                text = "Continuar",
+                text = "Continuars",
                 textAlign = TextAlign.Center
             )
         }
