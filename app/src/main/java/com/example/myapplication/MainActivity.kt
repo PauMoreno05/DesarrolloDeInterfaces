@@ -61,6 +61,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+//prueba de commit
 
 @Composable
 fun JugarGames(modifier: Modifier = Modifier, navController: NavController){
@@ -102,7 +103,7 @@ fun Orientacion_Retrato(modifier: Modifier = Modifier, navController : NavContro
             colors = ButtonDefaults.buttonColors(),
         ) {
             Text(
-                text = "Continuars",
+                text = "Continuar",
                 textAlign = TextAlign.Center
             )
         }
