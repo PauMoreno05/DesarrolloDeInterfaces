@@ -43,6 +43,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.Pink80
+import com.example.yourprojectname.NewPlayer
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -152,21 +153,20 @@ fun Orientacion_Retrato(modifier: Modifier = Modifier, navController : NavContro
 fun Orientacion_Panorama(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight(Alignment.CenterVertically),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(-35.dp) // positivo recomendado
+        verticalArrangement = Arrangement.Center // positivo recomendado
     ) {
-        Spacer(modifier = Modifier.size(70.dp))
+
         Text(
             text = stringResource(id = R.string.JugarGames),
             modifier = Modifier
-                .height(200.dp)
+//                .height(200.dp)
                 .padding(20.dp),
             fontSize = 40.sp,
             fontFamily = FontFamily.Cursive
         )
-        Spacer(modifier = Modifier.size(30.dp))
+
         Row { Button(
             onClick = { /**/ },
             modifier = Modifier
