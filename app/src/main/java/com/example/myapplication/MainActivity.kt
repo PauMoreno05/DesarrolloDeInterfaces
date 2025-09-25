@@ -56,6 +56,7 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination = "pantalla1", modifier = Modifier.padding(innerPadding)) {
                         composable("Pantalla1") { JugarGames(navController = navController) }
                         composable("Pantalla2") { NewPlayer()}
+//                        composable("Pantalla3") { Preferences()}
                     }
                 }
             }
