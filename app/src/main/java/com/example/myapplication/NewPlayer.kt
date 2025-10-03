@@ -12,13 +12,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.myapplication.R
 
 @Composable
-fun NewPlayer() {
+fun NewPlayer(modifier: Modifier = Modifier, navController: NavController) {
     val scrollState = rememberScrollState()
 
     Column(
@@ -31,7 +31,7 @@ fun NewPlayer() {
 
         // Fila para el Nombre
         InputRow(
-            icon = Icons.Default.Person,
+            icon = R.drawable.account,
             label = "Nombre",
             value = "",
             onValueChange = {}
@@ -39,7 +39,7 @@ fun NewPlayer() {
 
         // Fila para los Apellidos
         InputRow(
-            icon = Icons.Default.Person,
+            icon = R.drawable.img,
             label = "Apellidos",
             value = "",
             onValueChange = {}
@@ -47,7 +47,7 @@ fun NewPlayer() {
 
         // Fila para el Nickname
         InputRow(
-            icon = Icons.Default.Person,
+            icon = R.drawable.img,
             label = "Nickname",
             value = "",
             onValueChange = {}
@@ -62,7 +62,7 @@ fun NewPlayer() {
         ) {
             // Placeholder para la imagen del avatar. Reemplaza "R.drawable.tu_imagen"
             Image(
-                painter = painterResource(id = R.drawable.account),
+                painter = painterResource(id = R.drawable.android),
                 contentDescription = "Avatar del jugador",
                 modifier = Modifier.size(100.dp)
             )
@@ -77,7 +77,7 @@ fun NewPlayer() {
 
         // Fila para el Teléfono
         InputRow(
-            icon = Icons.Default.Phone,
+            icon = R.drawable.camera,
             label = "Teléfono",
             value = "",
             onValueChange = {}
@@ -85,7 +85,7 @@ fun NewPlayer() {
 
         // Fila para el Email
         InputRow(
-            icon = Icons.Default.Email,
+            icon = R.drawable.email,
             label = "Email",
             value = "",
             onValueChange = {}
@@ -95,7 +95,7 @@ fun NewPlayer() {
 
 
 @Composable
-fun InputRow(icon: ImageVector, label: String, value: String, onValueChange: (String) -> Unit) {
+fun InputRow(icon: Int, label: String, value: String, onValueChange: (String) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -115,4 +115,11 @@ fun InputRow(icon: ImageVector, label: String, value: String, onValueChange: (St
             modifier = Modifier.weight(1f)
         )
     }
+}
+
+private fun RowScope.Icon(
+    imageVector: Int,
+    contentDescription: Nothing?,
+    modifier: Modifier
+) {
 }

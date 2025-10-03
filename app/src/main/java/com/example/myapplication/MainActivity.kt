@@ -55,8 +55,8 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     NavHost(navController = navController, startDestination = "pantalla1", modifier = Modifier.padding(innerPadding)) {
                         composable("Pantalla1") { JugarGames(navController = navController) }
-                        composable("Pantalla2") { NewPlayer()}
-//                        composable("Pantalla3") { Preferences()}
+                        composable("Pantalla2") { NewPlayer(navController = navController)}
+                        composable("Pantalla3") { Preferences(navController = navController)}
                     }
                 }
             }
@@ -110,7 +110,7 @@ fun Orientacion_Retrato(modifier: Modifier = Modifier, navController : NavContro
             )
         }
         Button(
-            onClick = { navController.navigate("pantalla2")  },
+            onClick = { navController.navigate("Pantalla2")  },
             modifier = Modifier
                 .width(200.dp)
                 .height(70.dp)
@@ -123,7 +123,7 @@ fun Orientacion_Retrato(modifier: Modifier = Modifier, navController : NavContro
             )
         }
         Button(
-            onClick = {/**/},
+            onClick = {navController.navigate("Pantalla3")},
             modifier = Modifier
                 .width(200.dp)
                 .height(70.dp)
