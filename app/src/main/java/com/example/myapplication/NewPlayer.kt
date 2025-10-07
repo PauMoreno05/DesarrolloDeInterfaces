@@ -21,46 +21,45 @@ import com.example.myapplication.R
 fun NewPlayer(modifier: Modifier = Modifier, navController: NavController) {
     val scrollState = rememberScrollState()
 
+    var nombre by remember { mutableStateOf("") }
+    var apellidos by remember { mutableStateOf("") }
+    var nickname by remember { mutableStateOf("") }
+    var telefono by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
             .padding(16.dp)
     ) {
-        // Campos de texto y avatares, de arriba a abajo.
-
-        // Fila para el Nombre
         InputRow(
             icon = R.drawable.account,
             label = "Nombre",
-            value = "",
-            onValueChange = {}
+            value = nombre,
+            onValueChange = { nombre = it }
         )
 
-        // Fila para los Apellidos
         InputRow(
             icon = R.drawable.img,
             label = "Apellidos",
-            value = "",
-            onValueChange = {}
+            value = apellidos,
+            onValueChange = { apellidos = it }
         )
 
-        // Fila para el Nickname
         InputRow(
             icon = R.drawable.img,
             label = "Nickname",
-            value = "",
-            onValueChange = {}
+            value = nickname,
+            onValueChange = { nickname = it }
         )
 
-        // Fila para el Avatar y el botón
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Placeholder para la imagen del avatar. Reemplaza "R.drawable.tu_imagen"
             Image(
                 painter = painterResource(id = R.drawable.android),
                 contentDescription = "Avatar del jugador",
@@ -68,30 +67,29 @@ fun NewPlayer(modifier: Modifier = Modifier, navController: NavController) {
             )
             Spacer(modifier = Modifier.width(16.dp))
             Button(
-                onClick = { /* Lógica para cambiar la imagen */ },
+                onClick = { /* Lógica para cambiar imagen */ },
                 modifier = Modifier.weight(1f)
             ) {
                 Text("Change")
             }
         }
 
-        // Fila para el Teléfono
         InputRow(
             icon = R.drawable.camera,
             label = "Teléfono",
-            value = "",
-            onValueChange = {}
+            value = telefono,
+            onValueChange = { telefono = it }
         )
 
-        // Fila para el Email
         InputRow(
             icon = R.drawable.email,
             label = "Email",
-            value = "",
-            onValueChange = {}
+            value = email,
+            onValueChange = { email = it }
         )
     }
 }
+
 
 
 @Composable
@@ -102,8 +100,8 @@ fun InputRow(icon: Int, label: String, value: String, onValueChange: (String) ->
             .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            imageVector = icon,
+        Image(
+            painter = painterResource(id = icon),
             contentDescription = null,
             modifier = Modifier.size(48.dp)
         )
@@ -117,9 +115,5 @@ fun InputRow(icon: Int, label: String, value: String, onValueChange: (String) ->
     }
 }
 
-private fun RowScope.Icon(
-    imageVector: Int,
-    contentDescription: Nothing?,
-    modifier: Modifier
-) {
-}
+
+
