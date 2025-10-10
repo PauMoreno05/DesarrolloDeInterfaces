@@ -1,10 +1,9 @@
-package com.example.myapplication.ui.theme
+package com.example.myapplication
 
 // ¡Elimina esta importación si solo estás definiendo tu Composable!
 // import android.window.SplashScreen
 // No necesitamos importarla si le cambiamos el nombre a la Composable.
 
-import android.window.SplashScreen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize // Necesario para llenar la pantalla

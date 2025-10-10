@@ -42,7 +42,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.myapplication.ui.theme.CustomSplashScreen
+
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.Pink80
 import com.example.yourprojectname.NewPlayer
@@ -56,10 +56,12 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     NavHost(navController = navController, startDestination = "SplashScreen", modifier = Modifier.padding(innerPadding)) {
-                        composable("Pantalla1") { JugarGames(navController = navController) }
                         composable ("SplashScreen") { CustomSplashScreen(navController = navController)}
-                        composable("Pantalla2") { NewPlayer(navController = navController)}
-                        composable("Pantalla3") { Preferences(navController = navController)}
+                        composable("Pantalla1") { JugarGames(navController = navController) }
+                        composable("Pantalla2") { Continuar(navController = navController)}
+                        composable("Pantalla3") { NewPlayer(navController = navController)}
+                        composable("Pantalla4") { Preferences(navController = navController)}
+
                     }
                 }
             }
@@ -100,7 +102,7 @@ fun Orientacion_Retrato(modifier: Modifier = Modifier, navController : NavContro
         )
         Spacer(modifier = Modifier.size(10.dp))
         Button(
-            onClick = {  },
+            onClick = {navController.navigate("Pantalla2")},
             modifier = Modifier
                 .width(200.dp)
                 .height(70.dp)
@@ -113,7 +115,7 @@ fun Orientacion_Retrato(modifier: Modifier = Modifier, navController : NavContro
             )
         }
         Button(
-            onClick = { navController.navigate("Pantalla2")  },
+            onClick = { navController.navigate("Pantalla3")  },
             modifier = Modifier
                 .width(200.dp)
                 .height(70.dp)
@@ -126,7 +128,7 @@ fun Orientacion_Retrato(modifier: Modifier = Modifier, navController : NavContro
             )
         }
         Button(
-            onClick = {navController.navigate("Pantalla3")},
+            onClick = {navController.navigate("Pantalla4")},
             modifier = Modifier
                 .width(200.dp)
                 .height(70.dp)
@@ -237,3 +239,4 @@ fun GreetingPreview() {
 //        JugarGames()
     }
 }
+
