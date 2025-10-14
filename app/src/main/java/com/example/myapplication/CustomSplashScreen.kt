@@ -1,8 +1,5 @@
 package com.example.myapplication
 
-// ¡Elimina esta importación si solo estás definiendo tu Composable!
-// import android.window.SplashScreen
-// No necesitamos importarla si le cambiamos el nombre a la Composable.
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -21,15 +18,14 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 
 @Composable
-fun CustomSplashScreen(navController: NavController){ // <-- ¡Nombre cambiado aquí!
+fun CustomSplashScreen(navController: NavController){
     Box(
         modifier = Modifier
-            .fillMaxSize() // <-- ¡Asegura que ocupe toda la pantalla!
-            .background(MaterialTheme.colorScheme.background), // Opcional: Establece el color de fondo
-        contentAlignment = Alignment.Center // Opcional: Centra contenido principal si lo hubiera
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        contentAlignment = Alignment.Center
     ) {
 
-        // Contenido principal (Ej: Logo, icono grande, etc. - ¡Añádelo aquí!)
 
         Text(
             text = "Create by: Pau Moreno Catalan",

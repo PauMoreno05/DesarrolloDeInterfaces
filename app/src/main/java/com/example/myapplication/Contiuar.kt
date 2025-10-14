@@ -37,7 +37,6 @@ fun Continuar(modifier: Modifier = Modifier, navController: NavController) {
                 val message = if (selectedGames.isEmpty()) {
                     "No has seleccionado ningún juego"
                 } else {
-                    // Formatear la lista de juegos seleccionados para el Toast (separado por comas y 'y' al final)
                     val list = selectedGames.toList()
                     val formattedList = when (list.size) {
                         0 -> ""
@@ -49,7 +48,7 @@ fun Continuar(modifier: Modifier = Modifier, navController: NavController) {
 
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             }) {
-                Text("✓", modifier = Modifier.padding(4.dp))
+                Text("V", modifier = Modifier.padding(4.dp))
             }
         },
         floatingActionButtonPosition = FabPosition.End
@@ -78,7 +77,7 @@ fun Continuar(modifier: Modifier = Modifier, navController: NavController) {
                         painter = painterResource(id = imageResId),
                         contentDescription = game,
                         modifier = Modifier
-                            .size(80.dp) // Tamaño del icono
+                            .size(80.dp)
                             .padding(end = 16.dp)
                     )
 

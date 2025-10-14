@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
-// Componente simulado de Rating Bar para usar estrellas como en la imagen
 @Composable
 fun RatingBar(
     modifier: Modifier = Modifier,
@@ -34,7 +33,6 @@ fun RatingBar(
             val starIndex = index + 1
             val isSelected = starIndex <= rating
 
-            // Usamos el color de MaterialTheme.colorScheme.primary para la estrella seleccionada
             val tintColor = if (isSelected) MaterialTheme.colorScheme.primary else Color.Gray
 
             Icon(
@@ -42,7 +40,7 @@ fun RatingBar(
                 contentDescription = "Star $starIndex",
                 tint = tintColor,
                 modifier = Modifier
-                    .size(24.dp) // Ajustar tamaño si es necesario
+                    .size(24.dp)
                     .clickable { onRatingChange(starIndex) }
                     .padding(horizontal = 2.dp)
             )
@@ -67,15 +65,10 @@ fun Preferences(modifier: Modifier = Modifier, navController: NavController) {
 
     val platforms = listOf("PS4", "XBOX", "3DS", "WII", "WIIU")
 
-    // Estado para la sección de Juegos
+
     var selectedGame by remember { mutableStateOf<String?>(null) }
-    // El rating ahora es Int para contar las estrellas (0 a 10)
-    var starRating by remember { mutableStateOf(0) } // <-- Puntuación de la barra de estrellas
-
-    // Volvemos a añadir el rating para el Slider (Float de 0.0 a 10.0)
-    var sliderRating by remember { mutableStateOf(0f) } // <-- Puntuación del Slider
-
-    // Estado para la sección de Plataformas
+    var starRating by remember { mutableStateOf(0) }
+    var sliderRating by remember { mutableStateOf(0f) } //
     var selectedPlatform by remember { mutableStateOf<String?>(null) }
 
     Scaffold(
@@ -87,13 +80,12 @@ fun Preferences(modifier: Modifier = Modifier, navController: NavController) {
                     .padding(16.dp),
                 horizontalArrangement = Arrangement.End
             ) {
-                // FAB PEQUEÑO para la votación de estrellas (Ejercicio 3)
+
                 SmallFloatingActionButton(
                     onClick = {
                         if (selectedGame != null && starRating > 0) {
                             Toast.makeText(
                                 context,
-                                // Usamos starRating para el Toast del botón estrella
                                 "Has seleccionado $selectedGame con una puntuación de $starRating.0",
                                 Toast.LENGTH_LONG
                             ).show()
@@ -118,10 +110,8 @@ fun Preferences(modifier: Modifier = Modifier, navController: NavController) {
 
                 Spacer(modifier = Modifier.width(8.dp))
 
-                // FAB GRANDE (del Ejercicio 1/anterior)
                 FloatingActionButton(onClick = {
                     if (selectedGame != null) {
-                        // Usamos sliderRating para el Toast del botón "✓" (del Slider original)
                         Toast.makeText(
                             context,
                             "Has seleccionado $selectedGame con una puntuación de ${"%.1f".format(sliderRating)} (del Slider)",
@@ -148,12 +138,10 @@ fun Preferences(modifier: Modifier = Modifier, navController: NavController) {
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start
         ) {
-            // --- SECCIÓN 1: JUEGOS Y SLIDER ---
             Text("Elige una opción:", style = MaterialTheme.typography.titleMedium)
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // RadioButtons para selección de juegos
             games.forEach { game ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -168,19 +156,16 @@ fun Preferences(modifier: Modifier = Modifier, navController: NavController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // --- SLIDER REAÑADIDO ---
-            // Slider de 0 a 10
             Slider(
                 value = sliderRating,
                 onValueChange = { sliderRating = it },
                 valueRange = 0f..10f,
-                steps = 9, // pasos entre 0 y 10 para valores de 1 en 1 (0.0, 1.0, 2.0...)
+                steps = 9,
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(24.dp))
 
 
-            // --- SECCIÓN 2: BARRA DE ESTRELLAS ---
             RatingBar(
                 rating = starRating,
                 stars = 10, // 10 estrellas
@@ -204,7 +189,6 @@ fun Preferences(modifier: Modifier = Modifier, navController: NavController) {
                         selected = (selectedPlatform == platform),
                         onClick = {
                             selectedPlatform = platform
-                            // Mostrar Toast con la plataforma seleccionada (Ejercicio 2)
                             Toast.makeText(
                                 context,
                                 "Has seleccionado $platform",
@@ -225,7 +209,6 @@ fun Preferences(modifier: Modifier = Modifier, navController: NavController) {
                     )
                 }
             }
-            // --- FIN SECCIÓN 3 ---
         }
     }
 }

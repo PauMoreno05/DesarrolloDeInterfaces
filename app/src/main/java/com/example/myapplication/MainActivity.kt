@@ -68,7 +68,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-//prueba de commit
+
 
 @Composable
 fun JugarGames(modifier: Modifier = Modifier, navController: NavController){
@@ -236,7 +236,6 @@ fun Orientacion_Panorama(modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     MyApplicationTheme {
-//        JugarGames()
     }
 }
 
