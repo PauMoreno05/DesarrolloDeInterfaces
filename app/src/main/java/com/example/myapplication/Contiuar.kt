@@ -2,9 +2,10 @@ package com.example.myapplication
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,6 +18,7 @@ import androidx.navigation.NavController
 @Composable
 fun Continuar(modifier: Modifier = Modifier, navController: NavController) {
     val context = LocalContext.current
+    val scrollState = rememberScrollState()
 
     val games = mapOf(
         "Angry Birds" to R.drawable.games_angrybirds,
@@ -54,51 +56,59 @@ fun Continuar(modifier: Modifier = Modifier, navController: NavController) {
         floatingActionButtonPosition = FabPosition.End
     ) { innerPadding ->
 
-
-        LazyColumn(
+        Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxSize(),
-            contentPadding = PaddingValues(top = 8.dp, start = 16.dp, end = 16.dp)
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+                .padding(top = 8.dp, start = 16.dp, end = 16.dp)
         ) {
-            items(games.keys.toList()) { game ->
-                val imageResId = games[game]!!
+            games.forEach { (game, imageResId) ->
                 val isSelected = game in selectedGames
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(64.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
-
-                    Image(
-                        painter = painterResource(id = imageResId),
-                        contentDescription = game,
-                        modifier = Modifier
-                            .size(80.dp)
-                            .padding(end = 16.dp)
-                    )
-
-                    Checkbox(
-                        checked = isSelected,
-                        onCheckedChange = { checked ->
-                            selectedGames = if (checked) {
-                                selectedGames + game
-                            } else {
-                                selectedGames - game
-                            }
-                        },
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-
-                    Text(
-                        text = game,
-                        modifier = Modifier.weight(1f)
-                    )
-                }
+                GameRow(
+                    game = game,
+                    imageResId = imageResId,
+                    isSelected = isSelected,
+                    onToggle = { checked ->
+                        selectedGames = if (checked) {
+                            selectedGames + game
+                        } else {
+                            selectedGames - game
+                        }
+                    }
+                )
             }
         }
+    }
+}
+
+@Composable
+fun GameRow(game: String, imageResId: Int, isSelected: Boolean, onToggle: (Boolean) -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(64.dp)
+            .clickable { onToggle(!isSelected) },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(id = imageResId),
+            contentDescription = game,
+            modifier = Modifier
+                .size(80.dp)
+                .padding(end = 16.dp)
+        )
+
+        Checkbox(
+            checked = isSelected,
+            onCheckedChange = onToggle,
+            modifier = Modifier.padding(end = 8.dp)
+        )
+
+        Text(
+            text = game,
+            modifier = Modifier.weight(1f)
+        )
     }
 }
