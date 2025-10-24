@@ -46,7 +46,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.Pink80
 import com.example.yourprojectname.NewPlayer
-import com.example.yourprojectname.PlayerListScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +61,7 @@ class MainActivity : ComponentActivity() {
                         composable("Pantalla2") { Continuar(navController = navController)}
                         composable("Pantalla3") { NewPlayer(navController = navController)}
                         composable("Pantalla4") { Preferences(navController = navController)}
-                        composable("Pantalla5") { PlayerListScreen(navController = navController) }
+                        composable("Pantalla5") { About(navController = navController) }
 
                     }
                 }

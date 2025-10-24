@@ -5,10 +5,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -17,29 +20,35 @@ import com.example.myapplication.R
 @Composable
 fun NewPlayer(modifier: Modifier = Modifier, navController: NavController) {
     val scrollState = rememberScrollState()
+    val emails = listOf<String>("paumorenocatalan@gmail.com", "paumorcat2@alu.edu.gva.es.com", "correo1@prueva.com")
 
     var nombre by remember { mutableStateOf("") }
     var apellidos by remember { mutableStateOf("") }
     var nickname by remember { mutableStateOf("") }
     var telefono by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+    
+    
+    var expanded by remember { mutableStateOf(false) }
 
 
-    var attemptedSave by remember { mutableStateOf(false) }
+    var intentoGuardar by remember { mutableStateOf(false) }
 
-    val isNombreValid = nombre.isNotBlank()
-    val isNicknameValid = nickname.isNotBlank()
-    val allFieldsValid = isNombreValid && isNicknameValid // Para la lógica de guardado
+    val NombreCorrecto = nombre.isNotBlank()
+    val NicknameCorrecto = nickname.isNotBlank()
+    val EmailCorrecto = email.isNotBlank()
+    val CamposCorrectos = NombreCorrecto && NicknameCorrecto && EmailCorrecto
 
-    val showNombreError = attemptedSave && !isNombreValid
-    val showNicknameError = attemptedSave && !isNicknameValid
+    val MostrarNombreError = intentoGuardar && !NombreCorrecto
+    val MostrarNicknameError = intentoGuardar && !NicknameCorrecto
+    val MostrarEmailError = intentoGuardar && !EmailCorrecto
 
-    // Lógica al pulsar el botón de guardar
-    val onSaveClicked = {
-        attemptedSave = true
+    
+    val guardarClick = {
+        intentoGuardar = true
 
-        if (allFieldsValid) {
-            println("Guardando datos del nuevo jugador: Nombre=$nombre, Nickname=$nickname")
+        if (CamposCorrectos) {
+            println("Guardando datos del nuevo jugador: Nombre=$nombre, Nickname=$nickname, Email=$email")
         } else {
             println("Fallo el guardado. Campos obligatorios marcados.")
         }
@@ -51,14 +60,14 @@ fun NewPlayer(modifier: Modifier = Modifier, navController: NavController) {
             .verticalScroll(scrollState)
             .padding(16.dp)
     ) {
-        // --- Campos de Entrada ---
+
         InputRow(
             icon = R.drawable.account,
             label = "Nombre *",
             value = nombre,
             onValueChange = { nombre = it },
-            isError = showNombreError, // Se marca el error al intentar guardar si está vacío
-            errorMessage = "El nombre es obligatorio"
+            isError = MostrarNombreError,
+            errorMens = "El nombre es obligatorio"
         )
 
         InputRow(
@@ -73,8 +82,8 @@ fun NewPlayer(modifier: Modifier = Modifier, navController: NavController) {
             label = "Nickname *",
             value = nickname,
             onValueChange = { nickname = it },
-            isError = showNicknameError, // Se marca el error al intentar guardar si está vacío
-            errorMessage = "El nickname es obligatorio"
+            isError = MostrarNicknameError,
+            errorMens = "El nickname es obligatorio"
         )
 
 
@@ -105,18 +114,49 @@ fun NewPlayer(modifier: Modifier = Modifier, navController: NavController) {
             onValueChange = { telefono = it }
         )
 
-        InputRow(
-            icon = R.drawable.email,
-            label = "Email",
-            value = email,
-            onValueChange = { email = it }
-        )
+        
+        Column(modifier = Modifier.fillMaxWidth()) {
+            InputRow(
+                icon = R.drawable.email,
+                label = "Email",
+                value = email,
+                onValueChange = {
+                    email = it
+                    expanded = false
+                },
+                isError = MostrarEmailError,
+                errorMens = "Introduce un email válido.",
+                
+                onInteraction = {
+                    if (emails.isNotEmpty()) {
+                        expanded = true
+                    }
+                }
+            )
 
+
+            
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier.fillMaxWidth(0.9f).padding(start = 64.dp)
+            ) {
+                emails.forEach { fixedEmail -> 
+                    DropdownMenuItem(
+                        text = { Text(fixedEmail) },
+                        onClick = {
+                            email = fixedEmail 
+                            expanded = false
+                        }
+                    )
+                }
+            }
+        }
 
         Spacer(modifier = Modifier.height(32.dp))
 
         Button(
-            onClick = onSaveClicked,
+            onClick = guardarClick,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
@@ -134,7 +174,8 @@ fun InputRow(
     value: String,
     onValueChange: (String) -> Unit,
     isError: Boolean = false,
-    errorMessage: String? = null
+    errorMens: String? = null,
+    onInteraction: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -155,14 +196,21 @@ fun InputRow(
                 value = value,
                 onValueChange = onValueChange,
                 label = { Text(label) },
-                isError = isError, // Aquí se marca el borde rojo
-                modifier = Modifier.weight(1f)
+                isError = isError,
+                modifier = Modifier.weight(1f),
+                trailingIcon = {
+                    if (label == "Email") {
+                        IconButton(onClick = onInteraction) {
+                            Icon(Icons.Default.ArrowDropDown, contentDescription = "Mostrar correos usados")
+                        }
+                    }
+                }
             )
         }
 
-        if (isError && errorMessage != null) {
+        if (isError && errorMens != null) {
             Text(
-                text = errorMessage,
+                text = errorMens,
                 color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier

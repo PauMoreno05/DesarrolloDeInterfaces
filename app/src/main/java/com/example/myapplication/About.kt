@@ -1,17 +1,27 @@
-package com.example.yourprojectname
+package com.example.myapplication
 
 import android.content.Context
 import android.widget.Toast
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,135 +31,98 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.myapplication.R // Asegúrate de que esta sea la R de tu módulo
-
-// ----------------------------------------------------------------------
-// 1. CLASE DE DATOS
-// ----------------------------------------------------------------------
+import androidx.navigation.compose.rememberNavController
 
 data class Player(
-    val id: Int,
-    val name: String,
-    val points: Int,
-    val avatarResId: Int // ID del recurso Drawable (ej. R.drawable.avatar_mario)
+    val nombre: String,
+    val puntos: Int,
+    @DrawableRes val imageResId: Int 
 )
 
-// ----------------------------------------------------------------------
-// 2. DATOS DE EJEMPLO (simulando los de la imagen)
-// ----------------------------------------------------------------------
+val players = listOf(
+    Player("María Mata", 2014, R.drawable.image1),
+    Player("Antonio Sanz", 2056, R.drawable.image2),
+    Player("Carlos Pérez", 5231, R.drawable.image3),
+    Player("Beatriz Martos", 1892, R.drawable.image4),
+    Player("Sandra Alegre", 3400, R.drawable.image5),
+    Player("Alex Serrat", 5874, R.drawable.image6),
+    Player("Ana Peris", 2238, R.drawable.image7),
+    Player("Leonardo Fabian", 1012252, R.drawable.image8),
 
-val dummyPlayers = listOf(
-    Player(1, "Mario Mata", 3814, R.drawable.image1), // Asume R.drawable.avatar_1 existe
-    Player(2, "Antonio Sanz", 3056, R.drawable.image2),
-    Player(3, "Carlos Perez", 5231, R.drawable.image3),
-    Player(4, "Beatriz Moreno", 1892, R.drawable.image3),
-    Player(5, "Sandra Alegre", 2409, R.drawable.image3),
-    Player(6, "Alex Serrat", 5874, R.drawable.image3),
-    Player(7, "Ana Peris", 2218, R.drawable.image3),
-    Player(8, "Paco Ortiz", 3350, R.drawable.image3)
-)
-
-
-// ----------------------------------------------------------------------
-// 3. COMPONENTE DE LA LISTA (PlayerListScreen)
-// ----------------------------------------------------------------------
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PlayerListScreen(modifier: Modifier = Modifier, navController: NavController? = null) {
-    val context = LocalContext.current
-
-    // Función para mostrar el Toast al hacer clic
-    val onPlayerClick: (Player) -> Unit = { player ->
-        Toast.makeText(context, "Jugador seleccionado: ${player.name}", Toast.LENGTH_SHORT).show()
-    }
-
-    // Acción para el botón "About"
-    val onAboutClick: () -> Unit = {
-        Toast.makeText(context, "Acerca de pulsado", Toast.LENGTH_SHORT).show()
-    }
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Jugadores", fontWeight = FontWeight.Bold) },
-                actions = {
-                    // Item "About" (Acerca de)
-                    IconButton(onClick = onAboutClick) {
-                        Icon(Icons.Filled.Info, contentDescription = "Acerca de")
-                    }
-                }
-            )
-        },
-        content = { paddingValues ->
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                contentPadding = PaddingValues(16.dp),
-                // 💡 No usamos Arrangement.spacedBy aquí, sino Spacers dentro del LazyColumn
-            ) {
-                items(dummyPlayers) { player ->
-                    PlayerListItem(player = player, onClick = onPlayerClick)
-                    // 💡 AGREGAMOS EL SPACER DESPUÉS DE CADA ITEM para la separación visual
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
-            }
-        }
     )
-}
 
-// ----------------------------------------------------------------------
-// 4. COMPONENTE DE ÍTEM DE JUGADOR MODIFICADO (PlayerListItem)
-// ----------------------------------------------------------------------
 
 @Composable
-fun PlayerListItem(player: Player, onClick: (Player) -> Unit) {
-    // 💡 Eliminamos el contenedor Card. Usamos un Row simple.
+fun PlayerListItem(player: Player, context: Context) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            // 💡 El color de fondo y el padding se aplican directamente al Row
-            .background(MaterialTheme.colorScheme.surfaceContainerLow) // Un color sutil de fondo
-            .clickable { onClick(player) }
-            .padding(vertical = 12.dp, horizontal = 8.dp),
+            .clickable {
+                Toast.makeText(context,player.nombre,Toast.LENGTH_SHORT).show()
+            }
+            .padding(vertical = 8.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Avatar del Jugador (Imagen Circular)
+        
         Image(
-            painter = painterResource(id = player.avatarResId),
-            contentDescription = player.name,
+            painter = painterResource(id = player.imageResId),
+            contentDescription = "Avatar de ${player.nombre}",
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .size(64.dp)
+                .size(100.dp) 
                 .clip(CircleShape)
-                .background(Color.LightGray)
         )
 
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(18.dp))
 
-        // Información de Texto
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f), 
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = player.name,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurface
+                text = player.nombre,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
             )
-
-            Spacer(modifier = Modifier.height(4.dp))
-
             Text(
-                text = "Puntos: ${player.points}",
+                text = "Puntos: ${player.puntos}",
                 fontSize = 14.sp,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
             )
         }
+    }
+}
 
+@Composable
+fun About(navController: NavController) {
+    val context = LocalContext.current
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            
+    ) {
+
+        Divider(color = MaterialTheme.colorScheme.primary, thickness = 2.dp)
+
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(0.dp)
+        ) {
+            items(players) { player ->
+                PlayerListItem(player = player, context = context)
+
+                Divider(
+                    color = Color.LightGray.copy(alpha = 0.7f),
+                    thickness = 1.dp,
+                    modifier = Modifier.padding(horizontal = 18.dp)
+                )
+            }
+        }
     }
 }
