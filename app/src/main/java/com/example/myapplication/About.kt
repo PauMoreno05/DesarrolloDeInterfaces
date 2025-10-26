@@ -57,7 +57,7 @@ val players = listOf(
 
 
 @Composable
-fun PlayerListItem(player: Player, context: Context) {
+fun PlayersFun(player: Player, context: Context) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -115,7 +115,7 @@ fun About(navController: NavController) {
             verticalArrangement = Arrangement.spacedBy(0.dp)
         ) {
             items(players) { player ->
-                PlayerListItem(player = player, context = context)
+                PlayersFun(player = player, context = context)
 
                 Divider(
                     color = Color.LightGray.copy(alpha = 0.7f),
